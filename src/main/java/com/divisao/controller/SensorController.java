@@ -1,6 +1,6 @@
 package com.divisao.controller;
 
-import com.divisao.dto.FaturamentoDto;
+import com.divisao.dto.QuantidadeSensoresDto;
 import com.divisao.dto.SensorOutputDto;
 import com.divisao.model.Sensor;
 import com.divisao.service.SensorService;
@@ -20,7 +20,7 @@ public class SensorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<List<Sensor>> salvar(@Valid @RequestBody Long quantidade) {
+    public ResponseEntity<List<Sensor>> salvar(@Valid @RequestBody QuantidadeSensoresDto quantidade) {
         return ResponseEntity.ok(sensorService.salvar(quantidade));
     }
 
@@ -31,14 +31,10 @@ public class SensorController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deletar() {
+    public ResponseEntity<Void> deletarSensoresELotes() {
         sensorService.deletar();
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("obterFaturamento")
-    public ResponseEntity<FaturamentoDto> obterFaturamento() {
 
-        return  ResponseEntity.ok(sensorService.obterFaturamento());
-    }
 }

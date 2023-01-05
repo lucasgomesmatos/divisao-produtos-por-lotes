@@ -21,6 +21,12 @@ public class Lote {
     @OneToMany
     private List<Sensor> sensores;
 
-    public <R> Lote(R collect) {
+
+    public boolean checarAprovado() {
+        int quantidadeSensores = getSensores().size();
+        int quantidadeSensoresComDefeito = (int) getSensores()
+                .stream().filter(Sensor::getDefeito).count();
+
+        return ((double) quantidadeSensoresComDefeito / (double) quantidadeSensores) < 0.07;
     }
 }

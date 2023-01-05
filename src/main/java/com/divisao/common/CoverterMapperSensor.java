@@ -19,10 +19,6 @@ public class CoverterMapperSensor {
         return mapper.map(sensor, SensorOutputDto.class);
     }
 
-//    public Sensor toEntity(SensorInputDto sensorInputDto) {
-//        return mapper.map(sensorInputDto, Sensor.class);
-//    }
-
     public List<SensorOutputDto> toCollectionModel(List<Sensor> sensors) {
         return sensors.stream()
                 .map(this::toModel)

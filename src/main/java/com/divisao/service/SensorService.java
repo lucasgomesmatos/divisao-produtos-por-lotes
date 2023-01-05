@@ -1,9 +1,8 @@
 package com.divisao.service;
 
 import com.divisao.common.CoverterMapperSensor;
-import com.divisao.dto.FaturamentoDto;
+import com.divisao.dto.QuantidadeSensoresDto;
 import com.divisao.dto.SensorOutputDto;
-import com.divisao.exception.NegocioException;
 import com.divisao.model.Sensor;
 import com.divisao.repository.LoteRepository;
 import com.divisao.repository.SensorRepository;
@@ -25,18 +24,11 @@ public class SensorService {
     private CoverterMapperSensor coverterMapperSensor;
 
     @Transactional
-    public List<Sensor> salvar(Long quantidade) {
+    public List<Sensor> salvar(QuantidadeSensoresDto quantidade) {
 
-        for (int i = 0; i < quantidade; i++) {
-
+        for (int i = 0; i < quantidade.getQuantidadeSensores() ; i++) {
             Sensor sensor = new Sensor();
-
-            if(Math.random() < 0.07) {
-                sensor.setDefeito(true);
-                sensorRepository.save(sensor);
-            }
-
-            sensor.setDefeito(false);
+            sensor.setDefeito(Math.random() < 0.07 );
             sensorRepository.save(sensor);
         }
 
@@ -50,30 +42,11 @@ public class SensorService {
 
     @Transactional
     public void deletar() {
-
         sensorRepository.deleteAll();
         loteRepository.deleteAll();
-
     }
 
-    public FaturamentoDto obterFaturamento() {
 
-        List<Sensor> sensores = sensorRepository.findAll();
-
-        if(sensores.isEmpty()) {
-            throw new NegocioException("Nenhum sensor cadastrado.");
-        }
-
-        int valor = 0;
-
-        for (Sensor sensor : sensores) {
-            if(sensor.getDefeito().equals(false)){
-                valor += 30;
-            }
-        }
-
-        return FaturamentoDto.builder().valor(valor).build();
-    }
 
 
 }
